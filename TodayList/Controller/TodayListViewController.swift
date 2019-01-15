@@ -10,8 +10,8 @@ import UIKit
 
 class TodayListViewController: UITableViewController {
     
-    let itemArray = ["Micheal Jordan", "Kobe Bryant", "Lebron James"]
-
+    var itemArray = ["Micheal Jordan", "Kobe Bryant", "Lebron James"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -26,7 +26,7 @@ class TodayListViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
         
-         cell.textLabel?.text = itemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row]
         
         return cell
         
@@ -35,7 +35,7 @@ class TodayListViewController: UITableViewController {
     // MARK - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         
         if(tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark){
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -44,11 +44,40 @@ class TodayListViewController: UITableViewController {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
         
-    tableView.deselectRow(at: indexPath, animated: true)
-    
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
+    // MARK - Add New Items
     
     
+    @IBAction func addBtnPressed(_ sender: Any) {
+        
+        var textField = UITextField()
+        var textPassed : String?
+        // alert controlller
+        let alert = UIAlertController(title: "Add New Item To List", message: "", preferredStyle: .alert)
+        
+        
+        // alert action (button to add)
+        let action = UIAlertAction(title: "Add Item", style: .default){(action) in
+            
+            textPassed = textField.text
+            self.itemArray.append(textPassed!)
+            self.tableView.reloadData()
+        }
+        
+        // the textfield in the alert
+        alert.addTextField{ (alertTextField) in alertTextField.placeholder = "Create new item"
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+            
+        }
+        
+        // animation
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
 }
-
