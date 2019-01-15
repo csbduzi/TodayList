@@ -12,8 +12,14 @@ class TodayListViewController: UITableViewController {
     
     var itemArray = ["Micheal Jordan", "Kobe Bryant", "Lebron James"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as! [String] {
+            itemArray = items
+        }
     }
     
     // MARK - Tableview Datasource Methods
@@ -64,6 +70,7 @@ class TodayListViewController: UITableViewController {
             
             textPassed = textField.text
             self.itemArray.append(textPassed!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         
